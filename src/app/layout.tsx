@@ -8,6 +8,11 @@ import Navigation from "@/components/Navigation/Navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const metadata: Metadata = {
+  title: "Site for schedule",
+  description: "",
+};
+
 export default function RootLayout({
   children,
   session,

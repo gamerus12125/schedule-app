@@ -1,17 +1,11 @@
 "use client";
 import "./globals.css";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Navigation from "@/components/Navigation/Navigation";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
-import Navigation from "@/components/Navigation/Navigation";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Site for schedule",
-  description: "",
-};
 
 export default function RootLayout({
   children,
@@ -22,10 +16,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
+      <head>
+        <title>Site for schedule</title>
+        <meta name="description" content="Description" />
+      </head>
       <SessionProvider session={session}>
         <body className={inter.className}>
-            <Navigation />
-            {children}
+          <Navigation />
+          {children}
         </body>
       </SessionProvider>
     </html>

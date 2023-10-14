@@ -32,6 +32,7 @@ const TablePage: FC = () => {
       )
       .then((resp) => resp.data ? setData(resp.data) : "")
       .catch((error) => setError(true));
+      console.log(data)
   }, []);
 
   const today = new Date();

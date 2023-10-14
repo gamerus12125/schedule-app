@@ -7,7 +7,6 @@ import Button from "../ui/Button/Button";
 import Modal from "../ui/Modal/Modal";
 import classNames from "classnames";
 import Input from "../ui/Input/Input";
-
 type weekNamesType = {
   1: string;
   2: string;
@@ -17,7 +16,7 @@ type weekNamesType = {
 };
 
 const TablePage: FC = () => {
-  const [data, setData] = useState<[table]>();
+  const [data, setData] = useState<[table]>()
   const [modal, setModal] = useState(false);
   const [redact, setRedact] = useState<any[] | [number]>([]);
   const [isError, setError] = useState(false);
@@ -26,12 +25,12 @@ const TablePage: FC = () => {
     axios
       .get(
         `${
-          process.env.DB_URL
-            ? process.env.DB_URL
+          process.env.NEXT_PUBLIC_DB_URL
+            ? process.env.NEXT_PUBLIC_DB_URL
             : "https://x3j8812v-4200.euw.devtunnels.ms/"
         }tables`
       )
-      .then((resp) => setData(resp.data))
+      .then((resp) => resp.data ? setData(resp.data) : "")
       .catch((error) => setError(true));
   }, []);
 
@@ -79,7 +78,7 @@ const TablePage: FC = () => {
     setRedact((prev) =>
       prev.includes(day) ? prev.filter((itm) => itm != day) : [...prev, day]
     );
-    axios.put(`${process.env.DB_URL ? process.env.DB_URL : "https://x3j8812v-4200.euw.devtunnels.ms/"}tables/${day}`, newData![day - 1]);
+    axios.put(`${process.env.NEXT_PUBLIC_DB_URL ? process.env.NEXT_PUBLIC_DB_URL : "https://x3j8812v-4200.euw.devtunnels.ms/"}tables/${day}`, newData![day - 1]);
   };
 
   return (

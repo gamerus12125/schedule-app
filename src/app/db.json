@@ -42,32 +42,32 @@
       "day": 1,
       "schedule": [
         {
-          "subject": "залупа",
-          "homework": "ничего"
-        },
-        {
-          "subject": "хуй",
-          "homework": "Написать сочинение"
-        },
-        {
-          "subject": "богдан",
+          "subject": "разговор о важном",
           "homework": ""
         },
         {
-          "subject": "пидорок",
-          "homework": "смотреть в чате"
+          "subject": "литература",
+          "homework": ""
+        },
+        {
+          "subject": "русский язык",
+          "homework": ""
         },
         {
           "subject": "алгебра",
-          "homework": "ничего"
+          "homework": ""
         },
         {
-          "subject": "англ. яз.",
-          "homework": "стр 25 картинки 2 и 3"
+          "subject": "английский язык",
+          "homework": ""
         },
         {
           "subject": "физика",
-          "homework": "учить записи в тетради"
+          "homework": ""
+        },
+        {
+          "subject": "технология",
+          "homework": ""
         },
         {
           "subject": "технология",
@@ -156,35 +156,35 @@
       "day": 4,
       "schedule": [
         {
-          "subject": "Россия - мои горизонты",
+          "subject": "Россия мои горизонты",
           "homework": "ничего"
         },
         {
-          "subject": "Физика",
-          "homework": "Учить параграф 4, 5"
+          "subject": "вероятность",
+          "homework": "номера 65(б) 69 76 78"
         },
         {
-          "subject": "Физика",
-          "homework": "Учить параграф 4, 5"
+          "subject": "физика",
+          "homework": "учить параграф 11"
         },
         {
-          "subject": "Английский язык",
-          "homework": "Учить всё"
+          "subject": "английский язык",
+          "homework": "стр 26 номер 1 и 5"
         },
         {
-          "subject": "Физ-ра",
-          "homework": "ничего"
+          "subject": "география",
+          "homework": "параграф 9 повторить + параграф 10 учить"
         },
         {
-          "subject": "Вероятность",
-          "homework": "Номер 1, 2, 3"
+          "subject": "физ-ра",
+          "homework": ""
         },
         {
-          "subject": "Русский язык",
-          "homework": "Учить параграф 4, 5"
+          "subject": "биология",
+          "homework": "стр 40 до РНК учить"
         },
         {
-          "subject": "Лит-ра",
+          "subject": "физика",
           "homework": "ничего"
         }
       ]
@@ -195,31 +195,31 @@
       "schedule": [
         {
           "subject": "геометрия",
-          "homework": "номер 1"
+          "homework": "вопросы к главе 9 стр 208 1-17 номер 784 785 802"
         },
         {
           "subject": "география",
-          "homework": "н"
+          "homework": "дописать таблицу в тетради"
         },
         {
-          "subject": "лит-ра",
-          "homework": "уц"
+          "subject": "литература",
+          "homework": "охарактеризовать понятия на стр 90"
         },
         {
           "subject": "геометрия",
-          "homework": "3344"
+          "homework": ""
         },
         {
           "subject": "биология",
-          "homework": "ке"
-        },
-        {
-          "subject": "химия",
-          "homework": "ака"
+          "homework": "пр 10"
         },
         {
           "subject": "история",
-          "homework": "кпаущ"
+          "homework": "ответить на вопросы в тетради"
+        },
+        {
+          "subject": "физика",
+          "homework": "учить пр 12 и упражнение 12"
         }
       ]
     }

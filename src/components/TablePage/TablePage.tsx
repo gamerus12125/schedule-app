@@ -32,7 +32,6 @@ const TablePage: FC = () => {
       )
       .then((resp) => resp.data ? setData(resp.data) : "")
       .catch((error) => setError(true));
-      console.log(data)
   }, []);
 
   const today = new Date();
@@ -42,6 +41,7 @@ const TablePage: FC = () => {
   startDate.setDate(today.getDate() - currentDay + 1);
 
   const weekDates = [];
+  console.log(data)
 
   for (let i = 0; i < 5; i++) {
     const currentDate = new Date(startDate);

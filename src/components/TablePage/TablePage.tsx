@@ -2,35 +2,42 @@
 import axios from "axios";
 import { FC } from "react";
 import { useState, useEffect } from "react";
-import { table } from "@/types/table";
 import Button from "../ui/Button/Button";
 import Modal from "../ui/Modal/Modal";
 import classNames from "classnames";
 import Input from "../ui/Input/Input";
+import { lesson } from "@prisma/client";
+import RedactWindow from "../RedactWindow/RedactWindow";
 type weekNamesType = {
   1: string;
   2: string;
   3: string;
   4: string;
   5: string;
+  6: string
+  0: string
 };
 
 const TablePage: FC = () => {
-  const [data, setData] = useState<[table]>()
+  const [data, setData] = useState<[lesson]>();
   const [modal, setModal] = useState(false);
-  const [redact, setRedact] = useState<any[] | [number]>([]);
   const [isError, setError] = useState(false);
+  const [redactItem, setRedactItem] = useState<number | null>(-1)
 
   useEffect(() => {
+    //    axios
+    //      .get(
+    //        `${
+    //          process.env.NEXT_PUBLIC_DB_URL
+    //            ? process.env.NEXT_PUBLIC_DB_URL
+    //            : "https://x3j8812v-4200.euw.devtunnels.ms/"
+    //        }tables`
+    //      )
+    //      .then((resp) => resp.data ? setData(resp.data) : "")
+    //      .catch((error) => setError(true));
     axios
-      .get(
-        `${
-          process.env.NEXT_PUBLIC_DB_URL
-            ? process.env.NEXT_PUBLIC_DB_URL
-            : "https://x3j8812v-4200.euw.devtunnels.ms/"
-        }tables`
-      )
-      .then((resp) => resp.data ? setData(resp.data) : "")
+      .get("/api/tables")
+      .then((res) => setData(res.data.data))
       .catch((error) => setError(true));
   }, []);
 
@@ -40,8 +47,7 @@ const TablePage: FC = () => {
   const startDate = new Date(today);
   startDate.setDate(today.getDate() - currentDay + 1);
 
-  const weekDates = [];
-  console.log(data)
+  const weekDates = [new Date()];
 
   for (let i = 0; i < 5; i++) {
     const currentDate = new Date(startDate);
@@ -54,145 +60,15 @@ const TablePage: FC = () => {
     3: "Среда",
     4: "Четверг",
     5: "Пятница",
+    6: "Суббота",
+    0: "Воскресенье"
   };
 
-  let newData: [table] | undefined = data;
-
-  const changeData = (
-    day: number,
-    text: string,
-    type: string,
-    index: number
-  ) => {
-    if (newData?.find((item) => item.day === day) != undefined) {
-      if (type === "homework") {
-        newData.find((item) => item.day === day)!.schedule[index].homework =
-          text;
-      } else {
-        newData.find((item) => item.day === day)!.schedule[index].subject =
-          text;
-      }
-    }
-  };
-
-  const sendNewData = (day: number) => {
-    setRedact((prev) =>
-      prev.includes(day) ? prev.filter((itm) => itm != day) : [...prev, day]
-    );
-    axios.put(`${process.env.NEXT_PUBLIC_DB_URL ? process.env.NEXT_PUBLIC_DB_URL : "https://x3j8812v-4200.euw.devtunnels.ms/"}tables/${day}`, newData![day - 1]);
-  };
+  let newData: [lesson] | undefined = data;
 
   return (
     <>
-      {modal ? (
-        <Modal>
-          <h2>Редактирование</h2>
-          <p className="py-5">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
-            debitis aut dolore eum amet? Voluptas dolor quasi impedit minima ab
-            ex consequuntur nobis optio autem quam aperiam, asperiores
-            aspernatur minus!
-          </p>
-          <div className="flex flex-col">
-            {!isError ? (
-              weekDates.map((day) => (
-                <span key={day.getDay()}>
-                  {day.getDate()}{" "}
-                  {weekNames[day.getDay() as keyof weekNamesType]}
-                  {redact.includes(day.getDay()) ? (
-                    <table className="w-full">
-                      <thead className="border-b border-l border-b-slate-500 border-l-slate-500">
-                        <tr>
-                          <th
-                            scope="col"
-                            className="w-96 border-r border-r-slate-500"
-                          >
-                            Урок
-                          </th>
-                          <th scope="col">Задание</th>
-                        </tr>
-                      </thead>
-                      <tbody className="border-l border-l-slate-500">
-                        {data ? (
-                          data.map((item) =>
-                            item.day === day.getDay()
-                              ? item.schedule.map((sub, index) => (
-                                  <tr className="text-xl" key={index}>
-                                    <td className="text-center border-r border-r-slate-500">
-                                      <Input
-                                        type="text"
-                                        placeholder=""
-                                        required={false}
-                                        onChange={(e: any) =>
-                                          changeData(
-                                            day.getDay(),
-                                            e,
-                                            "subject",
-                                            index
-                                          )
-                                        }
-                                      />
-                                    </td>
-                                    <td className="text-center">
-                                      <Input
-                                        type="text"
-                                        placeholder=""
-                                        required={false}
-                                        onChange={(e: any) =>
-                                          changeData(
-                                            day.getDay(),
-                                            e,
-                                            "homework",
-                                            index
-                                          )
-                                        }
-                                      />
-                                    </td>
-                                  </tr>
-                                ))
-                              : ""
-                          )
-                        ) : (
-                          <tr>
-                            <td colSpan={2}>Загрузка</td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  ) : (
-                    ""
-                  )}
-                  <Button
-                    funcClick={() =>
-                      setRedact((prev) =>
-                        prev.includes(day.getDay())
-                          ? prev.filter((itm) => itm != day.getDay())
-                          : [...prev, day.getDay()]
-                      )
-                    }
-                    type="button"
-                  >
-                    Редактировать
-                  </Button>
-                  <Button
-                    type="button"
-                    funcClick={() => sendNewData(day.getDay())}
-                  >
-                    Готово
-                  </Button>
-                </span>
-              ))
-            ) : (
-              <p>Ошибка</p>
-            )}
-          </div>
-          <Button type="button" funcClick={() => setModal(false)}>
-            Закрыть
-          </Button>
-        </Modal>
-      ) : (
-        ""
-      )}
+    <RedactWindow day={redactItem} data={data} setOpened={() => setModal(false)} isOpened={modal}/>
       <div
         className={classNames(
           modal ? "blur-md px-5 overflow-y-hidden" : "px-5"
@@ -201,7 +77,7 @@ const TablePage: FC = () => {
         <h1 className="text-3xl text-center font-bold my-5">
           Школьное расписание и домашнее задание
         </h1>
-        <Button funcClick={() => setModal(true)} type="button">
+        <Button funcClick={redactItem != -1 ? () => setModal(true) : console.log} type="button">
           Редактировать
         </Button>
         {!isError ? (
@@ -226,8 +102,11 @@ const TablePage: FC = () => {
                   className="border-b border-b-slate-500 text-center"
                 >
                   <td>
+                    <div className="flex justify-center">
+                    <input type="checkbox" disabled={(redactItem != date.getDay() && redactItem !== -1)} className="w-5 h-5 mr-3" onChange={(e) => redactItem != date.getDay() ? setRedactItem(date.getDay()) : setRedactItem(-1)}/>
                     {weekNames[date.getDay() as keyof weekNamesType]}{" "}
                     {date.getDate()}
+                    </div>
                   </td>
                   <td>
                     <table className="w-full">
@@ -245,18 +124,16 @@ const TablePage: FC = () => {
                       <tbody className="border-l border-l-slate-500">
                         {data ? (
                           data.map((item) =>
-                            item.day === date.getDay()
-                              ? item.schedule.map((sub, index) => (
-                                  <tr className="text-xl" key={index}>
-                                    <td className="text-center border-r border-r-slate-500">
-                                      {sub.subject}
-                                    </td>
-                                    <td className="text-center">
-                                      {sub.homework}
-                                    </td>
-                                  </tr>
-                                ))
-                              : ""
+                            item.day === date.getDay() ? (
+                              <tr className="text-xl" key={item.id}>
+                                <td className="text-center border-r border-r-slate-500">
+                                  {item.name}
+                                </td>
+                                <td className="text-center">{item.homework}</td>
+                              </tr>
+                            ) : (
+                              ""
+                            )
                           )
                         ) : (
                           <tr>

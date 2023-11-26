@@ -2,8 +2,8 @@ import type { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User } from "next-auth";
-import { users } from "@/app/db.json";
 import { user } from "@/types/user";
+import axios from "axios";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -23,9 +23,10 @@ export const options: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
+        const users = await axios.get(`${process.env.NEXT_PUBLIC_DB_URL}/users`).then((data) => data.data)
 
         const currentUser: user | undefined = users.find(
-          (user) => user.email === credentials?.email
+          (user: user) => user.email === credentials?.email
         );
 
         if (currentUser && currentUser.password === credentials?.password) {

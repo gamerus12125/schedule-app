@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model schedule {
+  id     Int  @id @default(autoincrement())
+  day    Int
+  lesson Json
+}
+
+model lesson {
+  id       Int    @id @default(autoincrement())
+  day      Int
+  name     String @db.Text
+  homework String @db.Text
+}

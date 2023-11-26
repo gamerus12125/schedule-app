@@ -17,8 +17,6 @@ const Register: FC = () => {
   const [error, setError] = useState("hidden");
   const router = useRouter();
 
-  console.log(process.env.DB_URL)
-
   const registerUser = async (e: any) => {
     e.preventDefault();
     console.log(process.env.DB_URL);
@@ -59,10 +57,10 @@ const Register: FC = () => {
     }
   };
   return (
-    <div className="mt-10 flex justify-center h-screen">
+    <div className="mt-10 flex justify-center sm:h-screen">
       <form
         onSubmit={(e) => registerUser(e)}
-        className="max-w-xl h-fit rounded border-4 border-gray-700 p-10 content-center grid gap-4 bg-slate-800"
+        className="h-fit rounded border-4 border-gray-700 p-10 content-center grid gap-4 bg-slate-800 sm:max-w-xl"
       >
         <h1 className="text-3xl w-1/3">Регистрация</h1>
         <p className={error}>Такой пользователь уже существует.</p>

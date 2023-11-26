@@ -25,10 +25,10 @@ const RedactWindow = ({ day, data, setOpened, isOpened }: { day: number | null, 
         <tbody>
             {data?.map((item, index) => item.day === day ? <tr key={index}>
                 <td>
-                    <input type="text" placeholder={item.name} onChange={(e) => newData ? newData[index - 1].name = e.target.value : ""}/>
+                    <input type="text" placeholder={item.name} onChange={(e) => newData ? newData[index].name = e.target.value : ""}/>
                 </td>
                 <td>
-                    <input type="text" placeholder={item.homework} onChange={(e) => newData ? newData[index - 1].homework = e.target.value : ""}/>
+                    <input type="text" placeholder={item.homework} onChange={(e) => newData ? newData[index].homework = e.target.value : ""}/>
                 </td>
             </tr> : "")}
         </tbody>

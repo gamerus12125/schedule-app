@@ -12,14 +12,12 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   client.$connect();
   const data: lesson[] = await new Response(req.body).json();
-  console.log(data)
   for(const itm of data) {
     await client.lesson.update({
       where: { id: itm.id },
       data: { name: itm.name, homework: itm.homework },
     })
   }
-
   client.$disconnect()
   return Response.json({});
 }

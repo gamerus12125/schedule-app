@@ -3,16 +3,15 @@ import Modal from "../ui/Modal/Modal";
 import Button from "../ui/Button/Button";
 import axios from "axios";
 
-const RedactWindow = ({ day, data, setOpened, isOpened }: { day: number | null, data: [lesson] | undefined, setOpened: Function, isOpened: boolean }) => {
+const RedactWindow = ({ day, data, setOpened}: { day: number | null, data: lesson[] | undefined, setOpened: Function}) => {
 
-    const newData = data?.filter((item) => item.day === day)
+    const newData = data
     const sendNewData = () => {
         setOpened()
         axios.put("api/tables", newData)
     }
 
   return (
-    <div className={isOpened ? "" : "hidden"}>
     <Modal>
       <h1>Редактирование</h1>
       <table className="my-10 border-slate-500 border-2">
@@ -25,10 +24,10 @@ const RedactWindow = ({ day, data, setOpened, isOpened }: { day: number | null, 
         <tbody>
             {data?.map((item, index) => item.day === day ? <tr key={index}>
                 <td>
-                    <input type="text" placeholder={item.name} onChange={(e) => newData ? newData[index].name = e.target.value : ""}/>
+                    <input className="p-3 rounded text-black" type="text" placeholder={item.name} onChange={(e) => newData ? newData[index].name = e.target.value : ""}/>
                 </td>
                 <td>
-                    <input type="text" placeholder={item.homework} onChange={(e) => newData ? newData[index].homework = e.target.value : ""}/>
+                    <input className="p-3 rounded text-black" type="text" placeholder={item.homework} onChange={(e) => newData ? newData[index].homework = e.target.value : ""}/>
                 </td>
             </tr> : "")}
         </tbody>
@@ -37,7 +36,6 @@ const RedactWindow = ({ day, data, setOpened, isOpened }: { day: number | null, 
         Готово
       </Button>
     </Modal>
-    </div>
   );
 };
 

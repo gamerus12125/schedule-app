@@ -3,11 +3,10 @@ import axios from "axios";
 import { FC } from "react";
 import { useState, useEffect } from "react";
 import Button from "../ui/Button/Button";
-import Modal from "../ui/Modal/Modal";
 import classNames from "classnames";
-import Input from "../ui/Input/Input";
 import { lesson } from "@prisma/client";
 import RedactWindow from "../RedactWindow/RedactWindow";
+import AddWindow from "../AddWindow/AddWindow";
 type weekNamesType = {
   1: string;
   2: string;
@@ -20,21 +19,13 @@ type weekNamesType = {
 
 const TablePage: FC = () => {
   const [data, setData] = useState<[lesson]>();
-  const [modal, setModal] = useState(false);
+  const [isEdit, setEdit] = useState(false);
+  const [isAdd, setAdd] = useState(false)
   const [isError, setError] = useState(false);
   const [redactItem, setRedactItem] = useState<number | null>(-1)
 
+
   useEffect(() => {
-    //    axios
-    //      .get(
-    //        `${
-    //          process.env.NEXT_PUBLIC_DB_URL
-    //            ? process.env.NEXT_PUBLIC_DB_URL
-    //            : "https://x3j8812v-4200.euw.devtunnels.ms/"
-    //        }tables`
-    //      )
-    //      .then((resp) => resp.data ? setData(resp.data) : "")
-    //      .catch((error) => setError(true));
     axios
       .get("/api/tables")
       .then((res) => setData(res.data.data))
@@ -47,7 +38,7 @@ const TablePage: FC = () => {
   const startDate = new Date(today);
   startDate.setDate(today.getDate() - currentDay + 1);
 
-  const weekDates = [new Date()];
+  const weekDates = [];
 
   for (let i = 0; i < 5; i++) {
     const currentDate = new Date(startDate);
@@ -64,22 +55,26 @@ const TablePage: FC = () => {
     0: "Воскресенье"
   };
 
-  let newData: [lesson] | undefined = data;
-
   return (
     <>
-    <RedactWindow day={redactItem} data={data} setOpened={() => setModal(false)} isOpened={modal}/>
+    {isEdit ? <RedactWindow day={redactItem} data={data?.filter((itm) => itm.day == redactItem)} setOpened={() => setEdit(false)}/> : ""}
+    {isAdd ? <AddWindow setOpened={() => setAdd(false)} day={redactItem ? redactItem : 0}/> : ""}
       <div
         className={classNames(
-          modal ? "blur-md px-5 overflow-y-hidden" : "px-5"
+          isEdit ? "blur-md px-5 overflow-y-hidden" : "px-5"
         )}
       >
         <h1 className="text-3xl text-center font-bold my-5">
           Школьное расписание и домашнее задание
         </h1>
-        <Button funcClick={redactItem != -1 ? () => setModal(true) : console.log} type="button">
+        <div className="flex mb-2 justify-evenly">
+        <Button funcClick={redactItem != -1 ? () => setEdit(true) : console.log} type="button">
           Редактировать
         </Button>
+        <Button type="button" funcClick={redactItem != -1 ? () => setAdd(true) : console.log}>
+          Добавить урок
+        </Button>
+        </div>
         {!isError ? (
           <table className="w-full border-4 border-slate-500">
             <thead className="border-b border-b-slate-500">

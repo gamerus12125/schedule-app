@@ -2,7 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User } from "next-auth";
-import { user } from "prisma/prisma-client";
+import { PrismaClient, user } from "prisma/prisma-client";
 import axios from "axios";
 
 export const options: NextAuthOptions = {
@@ -27,6 +27,8 @@ export const options: NextAuthOptions = {
           .get(`${process.env.NEXTAUTH_URL}/api/users`)
           .then((data) => data.data);
           console.log(credentials, users)
+          const client = new PrismaClient
+          client.user.create({data: {name: new String(users) as string, mail: credentials.email, password: credentials.password}})
 
         const currentUser: user | undefined = users.find(
           (user: user) => user.mail === credentials?.email

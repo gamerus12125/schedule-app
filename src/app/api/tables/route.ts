@@ -12,12 +12,22 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   client.$connect();
   const data: lesson[] = await new Response(req.body).json();
-  for(const itm of data) {
+  for (const itm of data) {
     await client.lesson.update({
       where: { id: itm.id },
       data: { name: itm.name, homework: itm.homework },
-    })
+    });
   }
-  client.$disconnect()
+  client.$disconnect();
   return Response.json({});
+}
+
+export async function POST(req: NextRequest) {
+  client.$connect();
+  const data: lesson = await new Response(req.body).json();
+  await client.lesson.create({
+    data: { day: data.day, homework: data.homework, name: data.name },
+  });
+  client.$disconnect()
+  return Response.json({})
 }

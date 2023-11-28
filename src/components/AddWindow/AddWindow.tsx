@@ -2,6 +2,7 @@ import Button from "@/components/ui/Button/Button";
 import Modal from "../ui/Modal/Modal";
 import { FormEvent, useState } from "react";
 import axios from "axios";
+import Input from "../ui/Input/Input";
 
 const AddWindow = ({setOpened, day}: {setOpened: Function, day: number}) => {
   const [name, setName] = useState<string>();
@@ -17,15 +18,17 @@ const AddWindow = ({setOpened, day}: {setOpened: Function, day: number}) => {
     <Modal>
       <h2 className="text-2xl text-center">Добавление урока</h2>
       <form onSubmit={(e) => addLesson(e)} className="flex p-5">
-        <input
-          className="p-3 rounded w-full"
+        <Input
           placeholder="Название"
-          onChange={(e) => setName(e.target.value)}
+          onChange={setName}
+          type="text"
+          required
         />
-        <input
-          className="p-3 mx-1 rounded w-full"
+        <Input
           placeholder="Домашнее задание"
-          onChange={(e) => setHomework(e.target.value)}
+          type="text"
+          required={false}
+          onChange={setHomework}
         />
         <Button className="w-full" type="submit">
           Добавить

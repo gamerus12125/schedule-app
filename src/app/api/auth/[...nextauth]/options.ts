@@ -26,6 +26,7 @@ export const options: NextAuthOptions = {
         const users = await axios
           .get(`${process.env.NEXTAUTH_URL}/api/users`)
           .then((data) => data.data);
+          console.log(credentials, users)
 
         const currentUser: user | undefined = users.find(
           (user: user) => user.mail === credentials?.email

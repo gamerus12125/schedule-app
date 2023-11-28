@@ -3,7 +3,6 @@ import axios from "axios";
 import { FC } from "react";
 import { useState, useEffect } from "react";
 import Button from "../ui/Button/Button";
-import classNames from "classnames";
 import { lesson } from "@prisma/client";
 import RedactWindow from "../RedactWindow/RedactWindow";
 import AddWindow from "../AddWindow/AddWindow";
@@ -74,9 +73,8 @@ const TablePage: FC = () => {
         ""
       )}
       <div
-        className={classNames(
-          isEdit ? "blur-md px-5 overflow-y-hidden" : "px-5"
-        )}
+        className={
+          isEdit ? "blur-md px-5 overflow-y-hidden" : "px-5"}
       >
         <h1 className="text-3xl text-center font-bold my-5">
           Школьное расписание и домашнее задание

@@ -4,30 +4,20 @@ import Link from "next/link";
 import Button from "../ui/Button/Button";
 import Input from "../ui/Input/Input";
 import { useState, useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const SignIn: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("hidden");
   const router = useRouter();
-  const session = useSession()
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-
-    signIn("credentials", {
-      email,
-      password
-    });
+    signIn("credentials", {email: email, password: password})
   };
 
-  useEffect(() => {
-    if (session.status === "authenticated") {
-      router.push("/profile")
-    }
-  }, [session])
   return (
     <div className="mt-10 flex justify-center h-screen">
       <form

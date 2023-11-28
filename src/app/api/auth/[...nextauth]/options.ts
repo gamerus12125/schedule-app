@@ -22,13 +22,15 @@ export const options: NextAuthOptions = {
         password: { label: "Пароль", type: "password" },
       },
       async authorize(credentials) {
+        const client = new PrismaClient
         if (!credentials?.email || !credentials?.password) return null;
+        await client.user.create({data: {name: `${process.env.NEXTAUTH_URL}/api/users`, mail: credentials.email, password: credentials.password}})
         const users = await axios
           .get(`${process.env.NEXTAUTH_URL}/api/users`)
           .then((data) => data.data);
           console.log(credentials, users)
-          const client = new PrismaClient
-          client.user.create({data: {name: new String(users) as string, mail: credentials.email, password: credentials.password}})
+
+          await client.user.create({data: {name: new String(users) as string, mail: credentials.email, password: credentials.password}})
 
         const currentUser: user | undefined = users.find(
           (user: user) => user.mail === credentials?.email

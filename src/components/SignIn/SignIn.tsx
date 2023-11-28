@@ -19,8 +19,7 @@ const SignIn: FC = () => {
 
     signIn("credentials", {
       email,
-      password,
-      redirect: true,
+      password
     });
   };
 

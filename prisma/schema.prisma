@@ -19,3 +19,10 @@ model lesson {
   name     String @db.Text
   homework String @db.Text
 }
+
+model user {
+  id       Int    @id @default(autoincrement())
+  name     String @unique(map: "name") @db.VarChar(50)
+  mail     String @unique(map: "mail") @db.VarChar(50)
+  password String @unique(map: "password") @db.VarChar(50)
+}

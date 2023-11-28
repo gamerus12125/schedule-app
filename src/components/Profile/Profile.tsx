@@ -9,7 +9,7 @@ const Profile: FC = () => {
   return (
     <div className="h-screen">
       <h1 className="text-center text-2xl">{session.data?.user?.name}</h1>
-      <Button type="button" funcClick={() => signOut()}>
+      <Button type="button" funcClick={() => signOut({redirect: true})}>
         Выйти
       </Button>
     </div>

@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   client.$connect();
   const data = await client.lesson.findMany();
   client.$disconnect();
-  return Response.json({ data });
+  return Response.json({data});
 }
 
 export async function PUT(req: NextRequest) {
@@ -26,8 +26,16 @@ export async function POST(req: NextRequest) {
   client.$connect();
   const data: lesson = await new Response(req.body).json();
   await client.lesson.create({
-    data: { day: data.day, homework: data.homework, name: data.name },
+    data: { day: data.day, homework: data.homework ? data.homework : "", name: data.name },
   });
+  client.$disconnect();
+  return Response.json({});
+}
+
+export async function DELETE(req: NextRequest) {
+  client.$connect();
+  const day = await new Response(req.body).json()
+  await client.lesson.deleteMany({where: {day: day}})
   client.$disconnect()
   return Response.json({})
 }

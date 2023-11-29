@@ -21,7 +21,7 @@ const TablePage: FC = () => {
   const [isEdit, setEdit] = useState(false);
   const [isAdd, setAdd] = useState(false);
   const [isError, setError] = useState(false);
-  const [redactItem, setRedactItem] = useState<number | null>(-1);
+  const [redactItem, setRedactItem] = useState<number>(-1);
 
   useEffect(() => {
     axios
@@ -32,17 +32,21 @@ const TablePage: FC = () => {
 
   const today = new Date();
   const currentDay = today.getDay();
-
   const startDate = new Date(today);
+  const weekDates = [];
+
   startDate.setDate(today.getDate() - currentDay + 1);
 
-  const weekDates = [];
+  const deleteSelected = (day: number) => {
+    axios.delete("api/tables", { data: day });
+  };
 
   for (let i = 0; i < 5; i++) {
     const currentDate = new Date(startDate);
     currentDate.setDate(startDate.getDate() + i);
     weekDates.push(currentDate);
   }
+
   const weekNames: weekNamesType = {
     1: "Понедельник",
     2: "Вторник",
@@ -57,7 +61,7 @@ const TablePage: FC = () => {
     <>
       {isEdit ? (
         <RedactWindow
-          day={redactItem}
+          day={redactItem ? redactItem : -1}
           data={data?.filter((itm) => itm.day == redactItem)}
           setOpened={() => setEdit(false)}
         />
@@ -72,10 +76,7 @@ const TablePage: FC = () => {
       ) : (
         ""
       )}
-      <div
-        className={
-          isEdit ? "blur-md px-5 overflow-y-hidden" : "px-5"}
-      >
+      <div className={isEdit ? "blur-md px-5 overflow-y-hidden" : "px-5"}>
         <h1 className="text-3xl text-center font-bold my-5">
           Школьное расписание и домашнее задание
         </h1>
@@ -91,6 +92,16 @@ const TablePage: FC = () => {
             funcClick={redactItem != -1 ? () => setAdd(true) : console.log}
           >
             Добавить урок
+          </Button>
+          <Button
+            type="button"
+            funcClick={
+              redactItem != -1
+                ? () => (redactItem ? deleteSelected(redactItem) : "")
+                : console.log
+            }
+          >
+            Удалить все уроки
           </Button>
         </div>
         {!isError ? (
@@ -122,7 +133,7 @@ const TablePage: FC = () => {
                           redactItem != date.getDay() && redactItem !== -1
                         }
                         className="w-5 h-5 mr-3"
-                        onChange={(e) =>
+                        onChange={() =>
                           redactItem != date.getDay()
                             ? setRedactItem(date.getDay())
                             : setRedactItem(-1)
@@ -153,7 +164,11 @@ const TablePage: FC = () => {
                               <tr
                                 className={
                                   "text-xl border-b-slate-500" +
-                                  (index != 0 && index != data.filter((item) => item.day == date.getDay()).length - 1
+                                  (index !=
+                                  data.filter(
+                                    (item) => item.day == date.getDay()
+                                  ).length -
+                                    1
                                     ? " border-b-2"
                                     : "")
                                 }

@@ -2,12 +2,12 @@
 import { FC, useEffect } from "react";
 import Input from "../ui/Input/Input";
 import Button from "../ui/Button/Button";
-import Link from "next/link";
 import { signIn } from "next-auth/react";
 import axios from "axios";
 import { useState } from "react";
-import { user } from "@/types/user";
 import { useRouter } from "next/navigation";
+import ButtonLink from "../ui/ButtonLink/ButtonLink";
+import { user } from "prisma/prisma-client";
 
 const Register: FC = () => {
   const [email, setEmail] = useState("");
@@ -24,21 +24,21 @@ const Register: FC = () => {
   const registerUser = async (e: any) => {
     e.preventDefault();
     const isAuthed = data?.find(
-      (item) => item.name === username || item.email === email
+      (item) => item.name === username || item.mail === email
     );
     if (!isAuthed) {
       axios
         .post("api/users", { name: username, mail: email, password: password })
         .catch((err) => setError(""));
     }
-    signIn("credentials", {email, password, redirect: true})
+    signIn("credentials", {email, password, redirect: true}).catch((error) => console.log(error))
   };
 
   return (
     <div className="mt-10 flex justify-center sm:h-screen">
       <form
         onSubmit={(e) => registerUser(e)}
-        className="h-fit rounded border-4 border-gray-700 p-10 content-center grid gap-4 bg-slate-800 sm:max-w-xl"
+        className="h-fit rounded border-4 border-gray-700 content-center grid gap-4 bg-slate-800 sm:max-w-xl lg:p-10"
       >
         <h1 className="text-3xl w-1/3">Регистрация</h1>
         <p className={error}>Такой пользователь уже существует.</p>
@@ -69,14 +69,17 @@ const Register: FC = () => {
             required={true}
           />
         </label>
-        <div className="flex">
-          <Button type="submit">Зарегистрироваться</Button>
-          <Link
+        <label className="flex">
+          <legend>Принимаю условия лицензионного соглашения</legend>
+          <Input type="checkbox" required placeholder=""/>
+        </label>
+        <div className="flex justify-between">
+          <Button type="submit" className="">Зарегистрироваться</Button>
+          <ButtonLink
             href={"#"}
-            className="text-white bg-gray-600 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-xm px-5 py-2.5 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
           >
             Уже зарегистрированы?
-          </Link>
+          </ButtonLink>
         </div>
       </form>
     </div>

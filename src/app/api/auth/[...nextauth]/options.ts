@@ -36,7 +36,6 @@ export const options: NextAuthOptions = {
           const { password, ...userWithoutPass } = currentUser;
           return userWithoutPass as unknown as User;
         }
-        console.log("error");
         return null;
       },
     }),

@@ -13,7 +13,7 @@ const Button = ({
     <button
       type={type}
       onClick={() => funcClick? funcClick(): undefined}
-      className={className + " relative inline-flex items-center justify-center p-3 overflow-hidden text-sm font-medium text-gray-900 rounded-lg bg-purple-600"}
+      className={className + " relative inline-flex items-center justify-center text-sm font-medium p-2 text-gray-900 rounded-lg bg-purple-600 lg:p-3"}
     >
       <span className="">
         {children}

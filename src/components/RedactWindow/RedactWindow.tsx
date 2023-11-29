@@ -21,7 +21,7 @@ const RedactWindow = ({
   return (
     <Modal>
       <h1>Редактирование</h1>
-      <table className="my-10 border-slate-500 border-2">
+      <table className="my-5 border-slate-500 border-2">
         <thead>
           <tr>
             <th>Урок</th>

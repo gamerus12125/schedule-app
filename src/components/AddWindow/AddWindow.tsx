@@ -10,7 +10,6 @@ const AddWindow = ({setOpened, day}: {setOpened: Function, day: number}) => {
 
   const addLesson = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setOpened()
     axios.post("api/tables", {day: day, homework: homework, name: name});
   };
 
@@ -34,6 +33,9 @@ const AddWindow = ({setOpened, day}: {setOpened: Function, day: number}) => {
           Добавить
         </Button>
       </form>
+      <Button type="button" funcClick={() => setOpened()}>
+        Закрыть
+      </Button>
     </Modal>
   );
 };

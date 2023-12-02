@@ -31,7 +31,6 @@ export const options: NextAuthOptions = {
         const currentUser: user | undefined = users.find(
           (user: user) => user.mail === credentials?.email
         );
-        console.log(currentUser)
         if (currentUser && currentUser.password === credentials?.password) {
           const { password, ...userWithoutPass } = currentUser;
           return userWithoutPass as unknown as User;

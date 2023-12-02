@@ -1,12 +1,17 @@
 import { PrismaClient, lesson } from "@prisma/client";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 const client = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   client.$connect();
+  console.log(await new NextRequest(req).headers)
   const data = await client.lesson.findMany();
   client.$disconnect();
-  return Response.json({data});
+  return Response.json({data}, {status: 200, headers: {
+    'Access-Control-Allow-Origin': 'http://localhost:3001',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  }});
 }
 
 export async function PUT(req: NextRequest) {

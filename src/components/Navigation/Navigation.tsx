@@ -15,6 +15,7 @@ const Navigation: FC = () => {
         <ButtonLink href="/profile">Профиль</ButtonLink>
       )}
       <ButtonLink href="/tables">Таблицы</ButtonLink>
+      <ButtonLink href="/posts">Посты</ButtonLink>
       <ButtonLink href="/about_us">О нас</ButtonLink>
     </nav>
   );

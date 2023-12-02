@@ -157,7 +157,7 @@ const TablePage: FC = () => {
                         </tr>
                       </thead>
                       <tbody className="border-l-2 border-l-slate-500">
-                        {data ? (
+                        {data?.[0] ? (
                           data
                             .filter((item) => item.day == date.getDay())
                             .map((item, index) => (
@@ -170,7 +170,7 @@ const TablePage: FC = () => {
                                   ).length -
                                     1
                                     ? " border-b-2"
-                                    : "")
+                                    : data)
                                 }
                                 key={item.id}
                               >

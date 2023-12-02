@@ -5,12 +5,8 @@ console.log("TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST")
 
 export async function GET(req: NextRequest) {
   client.$connect();
-  const ip = await new Response(req.headers.get("x-forwarded-for")).text()
+  const ip = await req.headers
   console.log(ip)
-  if (ip != process.env.NEXTAUTH_URL && ip != "::1") {
-    console.log(process.env.NEXTAUTH_URL)
-    return Response.json({data: "gay"});
-  }
   const data = await client.lesson.findMany();
   client.$disconnect();
   return Response.json({data}, {status: 200});

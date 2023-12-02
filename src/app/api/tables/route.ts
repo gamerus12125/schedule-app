@@ -1,11 +1,14 @@
 import { PrismaClient, lesson } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 const client = new PrismaClient();
+console.log("TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST")
 
 export async function GET(req: NextRequest) {
   client.$connect();
   const ip = await new Response(req.headers.get("x-forwarded-for")).text()
+  console.log(ip)
   if (ip != process.env.NEXTAUTH_URL && ip != "::1") {
+    console.log(process.env.NEXTAUTH_URL)
     return Response.json({data: "gay"});
   }
   const data = await client.lesson.findMany();

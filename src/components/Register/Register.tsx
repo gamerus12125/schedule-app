@@ -1,39 +1,29 @@
 "use client";
-import { FC, useEffect } from "react";
-import Input from "../ui/Input/Input";
-import Button from "../ui/Button/Button";
 import { signIn } from "next-auth/react";
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Input from "../ui/Input/Input";
+import Button from "../ui/Button/Button";
 import ButtonLink from "../ui/ButtonLink/ButtonLink";
-import { user } from "prisma/prisma-client";
 
-const Register: FC = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [data, setData] = useState<[user]>();
   const [error, setError] = useState("hidden");
   const router = useRouter();
 
-  useEffect(() => {
-    axios.get("api/users").then((res) => setData(res.data));
-  }, []);
-
   const registerUser = async (e: any) => {
     e.preventDefault();
-    const isAuthed = data?.find(
-      (item) => item.name === username || item.mail === email
+    axios
+      .post("api/users", { name: username, mail: email, password: password })
+      .catch((err) => setError(err));
+    signIn("credentials", { email, password, redirect: true }).catch((error) =>
+      console.log(error)
     );
-    if (!isAuthed) {
-      axios
-        .post("api/users", { name: username, mail: email, password: password })
-        .catch((err) => setError(""));
-    }
-    signIn("credentials", {email, password, redirect: true}).catch((error) => console.log(error))
+    router.push("/profile");
   };
-
   return (
     <div className="mt-10 flex justify-center sm:h-screen">
       <form
@@ -71,19 +61,16 @@ const Register: FC = () => {
         </label>
         <label className="flex">
           <legend>Принимаю условия лицензионного соглашения</legend>
-          <Input type="checkbox" required placeholder=""/>
+          <Input type="checkbox" required placeholder="" />
         </label>
         <div className="flex justify-between">
-          <Button type="submit" className="">Зарегистрироваться</Button>
-          <ButtonLink
-            href={"#"}
-          >
-            Уже зарегистрированы?
-          </ButtonLink>
+          <Button type="submit" className="">
+            Зарегистрироваться
+          </Button>
+          <ButtonLink href={"#"}>Уже зарегистрированы?</ButtonLink>
         </div>
       </form>
     </div>
   );
 };
-
 export default Register;

@@ -31,7 +31,5 @@ model post {
   id       Int    @id @default(autoincrement())
   title    String @db.TinyText
   text     String @db.Text
-  user_id  Int
-  likes    Int
-  dislikes Int
+  username String @db.VarChar(50)
 }
